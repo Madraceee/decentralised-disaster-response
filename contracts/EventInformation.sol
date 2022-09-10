@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: MIT
 
+// Note "event" word has been used a lot which represents a real life event
+
 pragma solidity ^0.8.0;
 
-contract eventInformation{
+import "./PriceConvertor.sol";  //import PriceConvertor.sol to get MATIC to USD then USD to INR
 
+contract eventInformation{
+    using PriceConvertor for uint256;
     
     // Store address and their option(True or false)
     struct eventVerifiers{
@@ -40,29 +44,42 @@ contract eventInformation{
     uint time;
 
     address public immutable i_owner;   // Owner of the Contract .. Mostly government
-    uint8 public immutable eventCreationDeposit;
-    uint8 public immutable verifierDeposit;
+    uint8 public constant EVENTCREATIONDEPOSIT =10;  //INR
+    uint8 public constant VERIFIERDEPOSIT = 2;     //INR
+
 
     constructor(){
         i_owner = msg.sender;
         time = block.timestamp;
         EventCount = 1;
-        eventCreationDeposit = 100; // INR
-        verifierDeposit = 20;       // INR
     }
 
+
+    modifier checkEventDeposit(){
+        require(msg.value.getConversionRate() >= EVENTCREATIONDEPOSIT,"Did not send enough Event Creation Deposit");
+        _;
+    }
+    
+    event NewEvent(uint32 indexed _id, bool _Accepted );
     // Initialize a new event
-    function createEvent(string memory _generalInfo) public payable{
+    function createEvent(string memory _generalInfo) public payable checkEventDeposit(){
         EventDetails[EventCount].generalInfo = _generalInfo;
         EventDetails[EventCount].verficationTrue = 0;
         EventDetails[EventCount].verficationFalse = 0;
         EventDetails[EventCount].verified = false;
         EventDetails[EventCount].owner = msg.sender;
+        emit NewEvent(EventCount, true);
+        EventCount++;
     }
 
     // functions , modifiers, events for Verification of an Event
 
     event UpdateEvent(uint32 indexed _id, bool _verifiedStatus);
+
+    modifier checkVerifierDeposit(){
+        require(msg.value.getConversionRate() >= VERIFIERDEPOSIT,"Did not send enough Verification Deposit");
+        _;
+    }
     
     // To check wether the current sender has already given his status on the event 
     modifier checkAddressVerification(uint32 _id,address _sender){
@@ -109,6 +126,7 @@ contract eventInformation{
     }
 
     //Functions to send events to the frontend
+    
     function getTotalEvents() public view returns(uint32){
         return EventCount;
     }
@@ -125,5 +143,4 @@ contract eventInformation{
     //Send rewards back to verifiers and event creators
 
     
-
 }
