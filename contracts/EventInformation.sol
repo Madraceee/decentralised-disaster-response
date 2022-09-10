@@ -68,6 +68,7 @@ contract eventInformation{
     }
 
     function verifiyEvent(uint32 _id,bool _verificationStatus) public payable checkAddressVerification(_id,msg.sender){
+        require( _id<= EventCount );
         verifiers[_id].push(eventVerifiers(msg.sender,_verificationStatus,true));
     }
     
