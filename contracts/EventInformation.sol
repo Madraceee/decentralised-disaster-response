@@ -145,6 +145,9 @@ contract eventInformation{
     }
     
     
+
+    // Request functions , events, modifers
+    
     // Event for NewRequest
     event NewRequest(uint32 _RequestCount);
 
@@ -157,6 +160,16 @@ contract eventInformation{
         UrgentRequests[RequestCount].time = block.timestamp;
         emit NewRequest(_RequestCount);
         RequestCount++;
+    }
+
+    //Functions to send requests to the frontend
+    
+    function getTotalRequests() public view returns(uint32){
+        return RequestCount-1;
+    }
+
+    function getRequestByID(uint32 _id) public view returns( eventDetail memory){
+        return UrgentRequests[_id];
     }
 
     // Add function to check whether a problem has been fixed
