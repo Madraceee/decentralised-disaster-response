@@ -20,4 +20,11 @@ library PriceConvertor{
         return maticAmountInINR;
     }
 
+    function getMaticPrice(uint8 amountINR) public view returns(uint256){
+        uint256 maticPrice = getPrice();
+        uint256 INRtoUSD = (amountINR * 1e18) / 79;
+        uint256 USDtoMatic = INRtoUSD * maticPrice;
+        return USDtoMatic;
+    }
+
 }
