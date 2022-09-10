@@ -8,6 +8,7 @@ import "./PriceConvertor.sol";  //import PriceConvertor.sol to get MATIC to USD 
 
 contract eventInformation{
     using PriceConvertor for uint256;
+    using PriceConvertor for uint8;
     
     // Store address and their option(True or false)
     struct eventVerifiers{
@@ -154,11 +155,11 @@ contract eventInformation{
     // Create a request funciton
 
     function createRequest(string memory _generalInfo, string memory _location) public payable{
-        UrgentRequests[RequestCount].generalInfo = _generalInfo;
+        UrgentRequests[RequestCount].info = _generalInfo;
         UrgentRequests[RequestCount].location  = _location;
         UrgentRequests[RequestCount].owner = msg.sender;
         UrgentRequests[RequestCount].time = block.timestamp;
-        emit NewRequest(_RequestCount);
+        emit NewRequest(RequestCount);
         RequestCount++;
     }
 
@@ -168,24 +169,25 @@ contract eventInformation{
         return RequestCount-1;
     }
 
-    function getRequestByID(uint32 _id) public view returns( eventDetail memory){
+    function getRequestByID(uint32 _id) public view returns( urgentRequest memory){
         return UrgentRequests[_id];
     }
 
-    // Add function to check whether a problem has been fixed
+
     
 
     //Send rewards back to verifiers and event creators
 
     function sendReward() public payable{
         require(msg.sender == i_owner);
+        require(address(this).balance >= (VERIFIERDEPOSIT.getMaticPrice()*2+EVENTCREATIONDEPOSIT.getMaticPrice()*2));
 
         for(uint32 i=0;i<EventCount;i++){
 
             bool status = EventDetails[i].verified;        // Store the status of the event  ... The majority will get the reward
             for(uint j=0;j< verifiers[i].length;i++)
             {
-                if(verifiers[i][j].verifier == status){
+                if(verifiers[i][j].verificationStatus == status){
                     (bool callSuccess,)=payable(verifiers[i][j].verifier).call{value: VERIFIERDEPOSIT*2 }("");  // Only those whose reponse are coorect are rewarded
                 }
                 
@@ -198,6 +200,7 @@ contract eventInformation{
                 (bool callSuccess,)=payable(EventDetails[i].owner).call{value: EVENTCREATIONDEPOSIT*2 }("");  // Reward is given to those whose information is true
             }            
         }
+
     }
 
     
