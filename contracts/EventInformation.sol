@@ -5,24 +5,26 @@ pragma solidity ^0.8.0;
 contract eventInformation{
 
     
+    // Store address and their option(True or false)
     struct eventVerifiers{
-        address verifier;
+        address verifier;           // Address of the verifier
         bool verificationStatus;    // 0 ->false   1->True
-        bool isValue;
+        bool isValue;            
     }
 
-    mapping(uint32 => eventVerifiers[] )  verifiers;
-    mapping(uint32 => string[]) media;
+    mapping(uint32 => eventVerifiers[] )  verifiers;  // Store multiple verufiers for a single Event 
+    mapping(uint32 => string[]) media;                // Store media related to a certain event
 
+    // Structure of the event and information it stores
     struct eventDetail{
-        uint32 id;
         string generalInfo;
         uint64 verficationTrue;
         uint64 verficationFalse;
         bool verified;       
-        address owner;
+        address owner;           // owner of the event
     }
 
+    // Request structure.. Used by those in distress and want serious help
     struct urgentRequest{
         string info;
         string location;
@@ -31,12 +33,12 @@ contract eventInformation{
     }
 
     
-    eventDetail[] EventDetails;
+    mapping(uint32 =>eventDetail) EventDetails;
     uint32 EventCount;
     urgentRequest[] urgentRequests;    
     uint time;
 
-    address public immutable i_owner;   
+    address public immutable i_owner;   // Owner of the Contract .. Mostly government
     
     constructor(){
         i_owner = msg.sender;
@@ -44,12 +46,18 @@ contract eventInformation{
         EventCount = 1;
     }
 
-    function createEvent(string memory _generalInfo,string memory _media) public payable{
-        EventDetails.push(eventDetail(EventCount,_generalInfo,0,0,false,msg.sender));
-        media[EventCount].push(_media);
+    // Initialize a new event
+    function createEvent(string memory _generalInfo) public payable{
+        EventDetails[EventCount].generalInfo = _generalInfo;
+        EventDetails[EventCount].verficationTrue = 0;
+        EventDetails[EventCount].verficationFalse = 0;
+        EventDetails[EventCount].verified = false;
+        EventDetails[EventCount].owner = msg.sender;
     }
 
+    // To check wether the current sender has already given his status on the event 
     modifier checkAddressVerification(uint32 _id,address _sender){
+        require( _id<= EventCount );
         bool status;
         uint256 length = verifiers[_id].length;
         for(uint i=0; i< length;i++)
@@ -67,10 +75,17 @@ contract eventInformation{
         }
     }
 
+    // Funtion to verify the event 
     function verifiyEvent(uint32 _id,bool _verificationStatus) public payable checkAddressVerification(_id,msg.sender){
-        require( _id<= EventCount );
-        verifiers[_id].push(eventVerifiers(msg.sender,_verificationStatus,true));
+        verifiers[_id].push(eventVerifiers(msg.sender,_verificationStatus,true)); // Executed only when the sender has not already given his response
     } 
+
+
+    // Upload media
+    
+    // Create Request
+
+    // Add function to check whether a problem has been fixed
     
 
     
