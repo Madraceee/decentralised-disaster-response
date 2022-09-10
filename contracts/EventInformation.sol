@@ -16,7 +16,7 @@ contract eventInformation{
         bool isValue;            
     }
 
-    mapping(uint32 => eventVerifiers[] )  verifiers;  // Store multiple verufiers for a single Event 
+    mapping(uint32 => eventVerifiers[] )  verifiers;  // Store multiple verifiers for a single Event 
     mapping(uint32 => string[]) media;                // Store media related to a certain event
 
     // Structure of the event and information it stores
@@ -33,14 +33,16 @@ contract eventInformation{
         string info;
         string location;
         address owner;
-        bool status;
+        uint256 time;
     }
 
     
     mapping(uint32 =>eventDetail) EventDetails;
     uint32 EventCount;
     
-    urgentRequest[] urgentRequests;    
+    mapping(uint32 =>urgentRequest) UrgentRequests;
+    uint32 RequestCount;
+
     uint time;
 
     address public immutable i_owner;   // Owner of the Contract .. Mostly government
@@ -52,6 +54,7 @@ contract eventInformation{
         i_owner = msg.sender;
         time = block.timestamp;
         EventCount = 1;
+        RequestCount = 1;
     }
 
 
@@ -125,17 +128,36 @@ contract eventInformation{
         media[_id].push(_mediaLink);
     }
 
+    // Check mediaID for the given event 
+
+    function getMediaByID(uint32 _id) public view returns(string[] memory){
+        return media[_id];
+    }
+
     //Functions to send events to the frontend
     
     function getTotalEvents() public view returns(uint32){
-        return EventCount;
+        return EventCount-1;
     }
 
     function getEventByID(uint32 _id) public view returns( eventDetail memory){
         return EventDetails[_id];
     }
     
-    // Create Request
+    
+    // Event for NewRequest
+    event NewRequest(uint32 _RequestCount);
+
+    // Create a request funciton
+
+    function createRequest(string memory _generalInfo, string memory _location) public payable{
+        UrgentRequests[RequestCount].generalInfo = _generalInfo;
+        UrgentRequests[RequestCount].location  = _location;
+        UrgentRequests[RequestCount].owner = msg.sender;
+        UrgentRequests[RequestCount].time = block.timestamp;
+        emit NewRequest(_RequestCount);
+        RequestCount++;
+    }
 
     // Add function to check whether a problem has been fixed
     
