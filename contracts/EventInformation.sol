@@ -35,6 +35,7 @@ contract eventInformation{
     
     mapping(uint32 =>eventDetail) EventDetails;
     uint32 EventCount;
+    
     urgentRequest[] urgentRequests;    
     uint time;
 
@@ -55,6 +56,10 @@ contract eventInformation{
         EventDetails[EventCount].owner = msg.sender;
     }
 
+    // functions , modifiers, events for Verification of an Event
+
+    event UpdateEvent(uint32 indexed _id, bool _verifiedStatus);
+    
     // To check wether the current sender has already given his status on the event 
     modifier checkAddressVerification(uint32 _id,address _sender){
         require( _id<= EventCount );
@@ -78,11 +83,28 @@ contract eventInformation{
     // Funtion to verify the event 
     function verifiyEvent(uint32 _id,bool _verificationStatus) public payable checkAddressVerification(_id,msg.sender){
         verifiers[_id].push(eventVerifiers(msg.sender,_verificationStatus,true)); // Executed only when the sender has not already given his response
+        if(_verificationStatus == false){
+            EventDetails[_id].verficationFalse++;
+        }else {
+             EventDetails[_id].verficationTrue++;
+        }
+
+        if(EventDetails[_id].verficationFalse > EventDetails[_id].verficationTrue){
+            EventDetails[_id].verified = false;
+        }else{
+            EventDetails[_id].verified = true;
+        }
+
+        emit UpdateEvent(_id,EventDetails[_id].verified);
     } 
 
 
     // Upload media
-    
+    function uploadMedia(uint32 _id, string memory _mediaLink) public{
+        media[_id].push(_mediaLink);
+    }
+
+
     // Create Request
 
     // Add function to check whether a problem has been fixed
