@@ -177,5 +177,28 @@ contract eventInformation{
 
     //Send rewards back to verifiers and event creators
 
+    function sendReward() public payable{
+        require(msg.sender == i_owner);
+
+        for(uint32 i=0;i<EventCount;i++){
+
+            bool status = EventDetails[i].verified;        // Store the status of the event  ... The majority will get the reward
+            for(uint j=0;j< verifiers[i].length;i++)
+            {
+                if(verifiers[i][j].verifier == status){
+                    (bool callSuccess,)=payable(verifiers[i][j].verifier).call{value: VERIFIERDEPOSIT*2 }("");  // Only those whose reponse are coorect are rewarded
+                }
+                
+            }
+        }
+
+        for(uint32 i=0; i<EventCount; i++)
+        {
+            if(EventDetails[i].verified == true){
+                (bool callSuccess,)=payable(EventDetails[i].owner).call{value: EVENTCREATIONDEPOSIT*2 }("");
+            }            
+        }
+    }
+
     
 }
