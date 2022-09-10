@@ -195,7 +195,7 @@ contract eventInformation{
         for(uint32 i=0; i<EventCount; i++)
         {
             if(EventDetails[i].verified == true){
-                (bool callSuccess,)=payable(EventDetails[i].owner).call{value: EVENTCREATIONDEPOSIT*2 }("");
+                (bool callSuccess,)=payable(EventDetails[i].owner).call{value: EVENTCREATIONDEPOSIT*2 }("");  // Reward is given to those whose information is true
             }            
         }
     }
