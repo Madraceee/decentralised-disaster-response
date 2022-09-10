@@ -6,7 +6,7 @@ pragma solidity ^0.8.0;
 
 import "./PriceConvertor.sol";  //import PriceConvertor.sol to get MATIC to USD then USD to INR
 
-contract eventInformation{
+contract EventInformation{
     using PriceConvertor for uint256;
     using PriceConvertor for uint8;
     
@@ -51,8 +51,8 @@ contract eventInformation{
     uint8 public constant VERIFIERDEPOSIT = 2;     //INR
 
 
-    constructor(){
-        i_owner = msg.sender;
+    constructor(address sender){
+        i_owner = sender;
         time = block.timestamp;
         EventCount = 1;
         RequestCount = 1;
