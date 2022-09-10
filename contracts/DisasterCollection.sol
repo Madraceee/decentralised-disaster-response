@@ -2,6 +2,8 @@
 
 pragma solidity ^0.8.0;
 
+import "./EventInformation.sol";
+
 contract DisasterCollection{
 
     struct disaster{
@@ -19,26 +21,29 @@ contract DisasterCollection{
 
     constructor()
     {
-       disasterCount = 0;
+       disasterCount = 1;
     }
 
     // Creates a new object which contains the basic information regarding the disaster event 
     function createEvent(string memory _familyEvent,string memory _mainEvent) public payable{
 
-        // Initialzing and push the new Event         
-        DisasterEvent.push(disaster(disasterCount,_familyEvent,_mainEvent,address(0),block.timestamp));
+        // Initialzing and push the new Event  
+        EventInformation eventInfo = new EventInformation(msg.sender);
+        DisasterEvent.push(disaster(disasterCount,_familyEvent,_mainEvent,address(eventInfo),block.timestamp));
         disasterCount++;
         
         // Storing the owner of the event
         eventOwner[msg.sender].push(disasterCount);
     }
 
-    function getDisasterCount()  public view returns(uint256){
+    // To get total number of disaster Contracts created
+    function getDisasterCount() public view returns(uint256){
         return disasterCount;
     }
 
-    function viewEvent(uint index)  public view returns(disaster memory){
-        return DisasterEvent[index];
+    // To ge the disaster information using Index
+    function viewEvent(uint _index)  public view returns(disaster memory){
+        return DisasterEvent[_index-1];
     }
 
     // Owner can access the contract and get fundes from the contract
@@ -47,6 +52,7 @@ contract DisasterCollection{
     
 
 }
+
 
 
 // 1.Create time based event 
