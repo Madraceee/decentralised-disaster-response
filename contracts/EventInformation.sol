@@ -40,11 +40,15 @@ contract eventInformation{
     uint time;
 
     address public immutable i_owner;   // Owner of the Contract .. Mostly government
-    
+    uint8 public immutable eventCreationDeposit;
+    uint8 public immutable verifierDeposit;
+
     constructor(){
         i_owner = msg.sender;
         time = block.timestamp;
         EventCount = 1;
+        eventCreationDeposit = 100; // INR
+        verifierDeposit = 20;       // INR
     }
 
     // Initialize a new event
@@ -99,16 +103,26 @@ contract eventInformation{
     } 
 
 
-    // Upload media
-    function uploadMedia(uint32 _id, string memory _mediaLink) public{
+    // Upload media  to a event using id
+    function uploadMedia(uint32 _id, string memory _mediaLink) public payable{
         media[_id].push(_mediaLink);
     }
 
+    //Functions to send events to the frontend
+    function getTotalEvents() public view returns(uint32){
+        return EventCount;
+    }
 
+    function getEventByID(uint32 _id) public view returns( eventDetail memory){
+        return EventDetails[_id];
+    }
+    
     // Create Request
 
     // Add function to check whether a problem has been fixed
     
+
+    //Send rewards back to verifiers and event creators
 
     
 
