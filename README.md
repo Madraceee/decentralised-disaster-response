@@ -54,6 +54,11 @@ This encourages everyone to give truthful information.
 - ReactJS - HTML enhacned for web apps!
 - ethersJS - Library used to interact with ethereum based block chains.
 
+## Polygon
+
+We have choosen polygon blockchain over others because of its faster, cheaper execution of smart contracts. Polygon is much faster and cheaper that ethereum when deploying and executing a smart contract. Thus this allows any user to participate in the DDRP system without worrying about GAS price. Fast network means information is available to everyone which is very important during disaster response.
+Polygon's interoperability can be used to extend the features of DDRP system. Polygon's new zkEVM can be used to execute transcation and reduce the gas price. Polygon is an interoperability and scaling protocol which has a very good and stable future. 
+
 ## Constraints
 
 For the success of this platform, a large number of users should actively particiapte in sending information and verification. By having a small number of users, wrong information can be easily propogated.
