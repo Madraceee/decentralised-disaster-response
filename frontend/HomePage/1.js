@@ -90,9 +90,9 @@ const createEvent = async()=>{
 
             
             if(familyEventText.value.length!=0 && mainEventText.value.length!=0){                  // Need a UI for accept 2 fields make sure they are not null.. then call this part
-                const waveTxn = await DisasterCollectionContract.createEvent(familyEventText.value,mainEventText.value,{ gasLimit: 3000000 });
-                console.log("Mining:",waveTxn);
-                await waveTxn.wait();
+                const eventTxn = await DisasterCollectionContract.createEvent(familyEventText.value,mainEventText.value,{ gasLimit: 3000000 });
+                console.log("Mining:",eventTxn);
+                await eventTxn.wait();
             }                                             // NEED UI
             
 
