@@ -86,3 +86,23 @@ input:hover {
     justify-content: space-around;
     /* flex-direction: column; */
 }
+
+.eventList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    overflow-y: scroll;
+}
+
+.eventCard {
+    font-size: large;
+    background-color: white;
+    width: 40vw;
+    padding: 20px;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+
+}
