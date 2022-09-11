@@ -7,7 +7,7 @@ By decentralisation, it allows the local poeple and the government to work toget
 By having a decentralised system using blockchain, the information is available to everyone and this information is immutable. The government can use the information from the smart contract for auditing/ analysis of the disaster.
 The citizens and political representatives can use this information to
 fix problems in the society and also prevent them from occurring again.
-(pls check and tell if this is ok)
+
 
 ## How it works
 
