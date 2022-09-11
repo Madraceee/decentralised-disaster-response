@@ -48,6 +48,11 @@ By having a reward system, it encourages citizens to participate and help the co
 By depositing certain amount of money, we can make sure that **FALSE** information is not propogated in the system.
 This encourages everyone to give truthful information.
 
+## Webpage
+
+run frontend/HomePage/index.html
+run frontend/SecondPage/index.html
+
 ## Contracts
 
 DisasterCollection contract at 0xd726183524c3fcb011E9428F4b8b0f91C41963e6 in polygon testnet.
