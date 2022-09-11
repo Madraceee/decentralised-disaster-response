@@ -13,7 +13,7 @@ contract DisasterCollection{
         address eventInformationContract;
         string location;
         uint time;              
-    }// add address list for verification
+    }
 
     
     mapping(address => uint[]) eventOwner;

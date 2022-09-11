@@ -48,6 +48,21 @@ By having a reward system, it encourages citizens to participate and help the co
 By depositing certain amount of money, we can make sure that **FALSE** information is not propogated in the system.
 This encourages everyone to give truthful information.
 
+## Contracts
+
+DisasterCollection contract at 0xd726183524c3fcb011E9428F4b8b0f91C41963e6 in polygon testnet.
+Use remix editor to access it. Code available in contracts/DisasterCollection.sol
+
+To access the individual event, Copy the event contract address from remix viewEvent funciton and open the 
+EventInformation contract using the address.
+Complile the code and use at address to get the instance.
+
+All the functions of the EventInformatin can be used in remix.
+Example EventInformation contract -> 0x49d4Ef5E126e586BAF077D3ACa208d48a8238d1E
+
+To run createEvent you need to pay 150000000 Gwei
+To run verifyEvent you need to pay 28000000 Gwei
+
 ## Tech
 
 - Solidity - Used to write smart contracts.
