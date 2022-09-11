@@ -106,7 +106,7 @@ contract EventInformation{
     }
 
     // Funtion to verify the event 
-    function verifiyEvent(uint32 _id,bool _verificationStatus) public payable checkAddressVerification(_id,msg.sender){
+    function verifiyEvent(uint32 _id,bool _verificationStatus) public payable checkAddressVerification(_id,msg.sender) checkVerifierDeposit(){
         verifiers[_id].push(eventVerifiers(msg.sender,_verificationStatus,true)); // Executed only when the sender has not already given his response
         if(_verificationStatus == false){
             EventDetails[_id].verficationFalse++;
@@ -185,10 +185,10 @@ contract EventInformation{
         for(uint32 i=0;i<EventCount;i++){
 
             bool status = EventDetails[i].verified;        // Store the status of the event  ... The majority will get the reward
-            for(uint j=0;j< verifiers[i].length;i++)
+            for(uint j=0;j< verifiers[i].length;j++)
             {
                 if(verifiers[i][j].verificationStatus == status){
-                    (bool callSuccess,)=payable(verifiers[i][j].verifier).call{value: VERIFIERDEPOSIT*2 }("");  // Only those whose reponse are coorect are rewarded
+                    (bool callSuccess,)=payable(verifiers[i][j].verifier).call{value: VERIFIERDEPOSIT.getMaticPrice()*2 }("");  // Only those whose reponse are correct are rewarded
                 }
                 
             }
@@ -197,11 +197,15 @@ contract EventInformation{
         for(uint32 i=0; i<EventCount; i++)
         {
             if(EventDetails[i].verified == true){
-                (bool callSuccess,)=payable(EventDetails[i].owner).call{value: EVENTCREATIONDEPOSIT*2 }("");  // Reward is given to those whose information is true
+                (bool callSuccess,)=payable(EventDetails[i].owner).call{value: EVENTCREATIONDEPOSIT.getMaticPrice()*2 }("");  // Reward is given to those whose information is true
             }            
         }
 
     }
 
+
+    receive() external payable{
+        
+    }
     
 }

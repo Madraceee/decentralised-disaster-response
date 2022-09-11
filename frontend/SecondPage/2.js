@@ -1,3 +1,4 @@
+import d from "d";
 import { ethers } from "./ethers.js";
 import abi from './utils/EventInformationABI.json' assert { type: "json" };
 
@@ -227,7 +228,7 @@ const viewMedia = async()=>{
             const Signer = provider.getSigner();         
             const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
 
-            const media = await EventInformationContract.getMediaByID(mediaIDGetter.value,);
+            const media = await EventInformationContract.getMediaByID(mediaIDGetter.value);
             let mediaArray = [];
             media.forEach(item =>{
                  mediaArray.push(item);
@@ -240,3 +241,23 @@ const viewMedia = async()=>{
 }
 
 button9.addEventListener('click',viewMedia);
+
+
+// Reward funtion
+const button10 = document.getElementById("reward");
+
+const reward = async()=>{
+    const {ethereum} = window;
+        if(ethereum){
+            const provider = new ethers.providers.Web3Provider(window.ethereum); 
+            await provider.send("eth_requestAccounts", []);
+            const Signer = provider.getSigner();         
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
+
+            const eventTxn = await EventInformationContract.sendReward();
+            console.log("Mining:",eventTxn);
+            await eventTxn.wait();
+            console.log("Mined. Reward Distributed");
+            
+        }
+}

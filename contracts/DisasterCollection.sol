@@ -10,7 +10,8 @@ contract DisasterCollection{
         uint256 id;
         string familyEvent;
         string mainEvent;
-        address eventInformationContract;   
+        address eventInformationContract;
+        string location;
         uint time;              
     }// add address list for verification
 
@@ -25,11 +26,11 @@ contract DisasterCollection{
     }
 
     // Creates a new object which contains the basic information regarding the disaster event 
-    function createEvent(string memory _familyEvent,string memory _mainEvent) public payable{
+    function createEvent(string memory _familyEvent,string memory _mainEvent,string memory _location) public payable{
 
         // Initialzing and push the new Event  
         EventInformation eventInfo = new EventInformation(msg.sender);
-        DisasterEvent.push(disaster(disasterCount,_familyEvent,_mainEvent,address(eventInfo),block.timestamp));
+        DisasterEvent.push(disaster(disasterCount,_familyEvent,_mainEvent,address(eventInfo),_location,block.timestamp));
         disasterCount++;
         
         // Storing the owner of the event
@@ -46,7 +47,6 @@ contract DisasterCollection{
         return DisasterEvent[_index-1];
     }
 
-    // Owner can access the contract and get fundes from the contract
 
 
     
@@ -55,4 +55,3 @@ contract DisasterCollection{
 
 
 
-// 1.Create time based event 
