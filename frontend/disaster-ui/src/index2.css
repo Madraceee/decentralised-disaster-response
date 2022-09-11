@@ -41,7 +41,7 @@ button {
     border-color: white;
     background-color: white;
     color: rgb(54, 54, 54);
-    font-size: x-large;
+    font-size: large;
     font-weight: normal;
 }
 
@@ -87,8 +87,22 @@ input:hover {
     /* flex-direction: column; */
 }
 
-.eventList {
+.inputFields2 {
+    /* position: absolute;
+    bottom: 50px; */
+    padding: 25px;
+    margin: 10px 0;
+    background-color: white;
+    width: 50vw;
     display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: large;
+    /* flex-direction: column; */
+}
+
+.eventList {
+    /* display: flex; */
     flex-direction: column;
     justify-content: center;
     align-items: center;
