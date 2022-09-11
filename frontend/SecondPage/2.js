@@ -186,3 +186,57 @@ const showAllRequests = async()=>{
 }
 
 button7.addEventListener("click",showAllRequests)
+
+// Function to upload media
+const button8 = document.getElementById("uploadMedia");
+const mediaID = document.getElementById("mediaID");
+const CID = document.getElementById("CID");
+const uploadMedia = async()=>{
+    if(mediaID.value.length != 0 && CID.value.length!=0){
+        const {ethereum} = window;
+        if(ethereum){
+            const provider = new ethers.providers.Web3Provider(window.ethereum); 
+            await provider.send("eth_requestAccounts", []);
+            const Signer = provider.getSigner();         
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
+
+            const eventTxn = await EventInformationContract.uploadMedia(mediaID.value,CID.value,{ gasLimit: 3000000 });
+            console.log("Mining:",eventTxn);
+            await eventTxn.wait();
+            console.log("Mined");
+
+            
+        }
+    }
+}
+
+button8.addEventListener('click',uploadMedia);
+
+
+// Function to view media for a given ID
+
+const button9 = document.getElementById("viewMedia");
+const mediaIDGetter = document.getElementById("mediaIDGetter");
+
+const viewMedia = async()=>{
+    if(mediaIDGetter.value.length != 0){
+        const {ethereum} = window;
+        if(ethereum){
+            const provider = new ethers.providers.Web3Provider(window.ethereum); 
+            await provider.send("eth_requestAccounts", []);
+            const Signer = provider.getSigner();         
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
+
+            const media = await EventInformationContract.getMediaByID(mediaIDGetter.value,);
+            let mediaArray = [];
+            media.forEach(item =>{
+                 mediaArray.push(item);
+                 console.log(item);
+            })
+            // mediaArray has the list of CID values... using these value we can redirent them to a new page which gets the media from filecoin
+            
+        }
+    }
+}
+
+button9.addEventListener('click',viewMedia);
