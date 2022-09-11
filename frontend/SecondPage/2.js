@@ -43,9 +43,9 @@ const createEvent = async()=>{
             const provider = new ethers.providers.Web3Provider(window.ethereum); 
             await provider.send("eth_requestAccounts", []);
             const Signer = provider.getSigner();         
-            const EventInformation = new ethers.Contract(contractAddress,contractABI, Signer);
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
 
-            const eventTxn = await EventInformation.createEvent(generalInfo.value,{ value: ethers.utils.parseEther("0.15"), gasLimit: 3000000 });
+            const eventTxn = await EventInformationContract.createEvent(generalInfo.value,{ value: ethers.utils.parseEther("0.15"), gasLimit: 3000000 });
             console.log("Mining:",eventTxn);
             await eventTxn.wait();
             console.log("Mined");
@@ -67,9 +67,9 @@ const verifyEvent = async() => {
             const provider = new ethers.providers.Web3Provider(window.ethereum); 
             await provider.send("eth_requestAccounts", []);
             const Signer = provider.getSigner();         
-            const EventInformation = new ethers.Contract(contractAddress,contractABI, Signer);
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
 
-            const eventTxn = await EventInformation.verifiyEvent(verificationID.value,verificationStatus.value,{ value: ethers.utils.parseEther("0.027"), gasLimit: 3000000 }); // Change verifyEvent spelling after updating contract
+            const eventTxn = await EventInformationContract.verifiyEvent(verificationID.value,verificationStatus.value,{ value: ethers.utils.parseEther("0.027"), gasLimit: 3000000 }); // Change verifyEvent spelling after updating contract
             console.log("Mining:",eventTxn);
             await eventTxn.wait();
             console.log("Mined");
@@ -80,3 +80,45 @@ const verifyEvent = async() => {
 
 button4.addEventListener('click',verifyEvent);
 
+// Function to print all the events
+
+const button5 = document.getElementById("showAllEvents");
+
+const showAllEvents = async()=>{
+    try{
+        if(window.ethereum){
+            const provider = new ethers.providers.Web3Provider(window.ethereum); 
+            await provider.send("eth_requestAccounts", []);
+            const Signer = provider.getSigner();
+            
+
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
+
+            let eventCount = await EventInformationContract.getTotalEvents();
+
+            eventCount=  ethers.BigNumber.from(eventCount).toNumber();
+    
+            const events= [];
+            for(let i=1; i <= eventCount ; i++){
+                const event = await EventInformationContract.getEventByID(i);
+                events.push({
+                    generalInfo: event.generalInfo,
+                    verficationTrue: event.verficationTrue,
+                    verficationFalse : event.verficationFalse,
+                    verified: event.verified,  
+                    // time: event.time  Time will be addded later
+                    owner : event.owner
+                });
+            };
+
+            for(let i=0; i<eventCount ; i++){
+                console.log(events[i]);           // THE RESULT IS PRINTED IN THE CONSOLE... NEED UI TO DISPLAY THEM ( LIKE STACK)
+            }                                        // General Info, Time , Verification numbers and final status should be printed.. Owner not needed
+        }
+        
+    }catch(err){
+        console.log(err);
+    }
+}
+
+button5.addEventListener('click',showAllEvents)
