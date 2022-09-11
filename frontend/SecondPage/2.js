@@ -122,3 +122,24 @@ const showAllEvents = async()=>{
 }
 
 button5.addEventListener('click',showAllEvents)
+
+// Function to create a request
+const button6 = document.getElementById("createRequest");
+const requestInfo = document.getElementById("requestInfo");
+const location = document.getElementById("location");
+const createRequest = async()=>{
+    if(requestInfo.value.length != 0 && location.value.length!=0){
+        const {ethereum} = window;
+        if(ethereum){
+            const provider = new ethers.providers.Web3Provider(window.ethereum); 
+            await provider.send("eth_requestAccounts", []);
+            const Signer = provider.getSigner();         
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
+
+            const eventTxn = await EventInformationContract.createRequest(requestInfo.value,location.value,{ value: ethers.utils.parseEther("0.15"), gasLimit: 3000000 });
+            console.log("Mining:",eventTxn);
+            await eventTxn.wait();
+            console.log("Mined");
+        }
+    }
+}
