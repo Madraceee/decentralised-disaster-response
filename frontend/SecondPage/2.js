@@ -23,13 +23,13 @@ button2.addEventListener('click',connect.call());
 const button1 = document.getElementById("contractAddressSubmit");
 const addressField = document.getElementById("contractAddress");
 
-let contractAddress;
-const contractAddressGetter = async()=>{
-    contractAddress = addressField.value;
-    console.log(contractAddress);
-}
+let contractAddress = "0x38e798FdeF6026Fbb2EC42441c5ccbF7659B80DC";  // Hardcoded the contract addrss so u dont have to keep initialzing
+// const contractAddressGetter = async()=>{
+//     contractAddress = addressField.value;
+//     console.log(contractAddress);
+// }
 
-button1.addEventListener('click',contractAddressGetter);
+// button1.addEventListener('click',contractAddressGetter);
 
 
 // Funtion to create a new event
@@ -136,10 +136,53 @@ const createRequest = async()=>{
             const Signer = provider.getSigner();         
             const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
 
-            const eventTxn = await EventInformationContract.createRequest(requestInfo.value,location.value,{ value: ethers.utils.parseEther("0.15"), gasLimit: 3000000 });
+            const eventTxn = await EventInformationContract.createRequest(requestInfo.value,location.value,{ gasLimit: 3000000 });
             console.log("Mining:",eventTxn);
             await eventTxn.wait();
             console.log("Mined");
         }
     }
 }
+
+button6.addEventListener('click',createRequest);
+
+
+// Function to view the requests 
+
+const button7 = document.getElementById("viewRequest");
+const showAllRequests = async()=>{
+    try{
+        if(window.ethereum){
+            const provider = new ethers.providers.Web3Provider(window.ethereum); 
+            await provider.send("eth_requestAccounts", []);
+            const Signer = provider.getSigner();
+            
+
+            const EventInformationContract = new ethers.Contract(contractAddress,contractABI, Signer);
+
+            let requestCount = await EventInformationContract.getTotalRequests();
+
+            requestCount =  ethers.BigNumber.from(requestCount).toNumber();
+    
+            const requests= [];
+            for(let i=1; i <= requestCount ; i++){
+                const request = await EventInformationContract.getRequestByID(i);
+                requests.push({
+                    info: request.info,
+                    location: request.location,
+                    owner : request.owner,
+                    time: request.time,  
+                });
+            };
+
+            for(let i=0; i<requestCount ; i++){
+                console.log(requests[i]);           // THE RESULT IS PRINTED IN THE CONSOLE... NEED UI TO DISPLAY THEM ( LIKE STACK)
+            }                                        
+        }
+        
+    }catch(err){
+        console.log(err);
+    }
+}
+
+button7.addEventListener("click",showAllRequests)
