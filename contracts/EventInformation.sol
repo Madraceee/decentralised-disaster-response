@@ -23,6 +23,7 @@ contract EventInformation{
     // Structure of the event and information it stores
     struct eventDetail{
         string generalInfo;
+        string location;
         uint64 verficationTrue;
         uint64 verficationFalse;
         bool verified;       
@@ -66,8 +67,9 @@ contract EventInformation{
     
     event NewEvent(uint32 indexed _id, bool _Accepted );
     // Initialize a new event
-    function createEvent(string memory _generalInfo) public payable checkEventDeposit(){
+    function createEvent(string memory _generalInfo,string memory _location) public payable checkEventDeposit(){
         EventDetails[EventCount].generalInfo = _generalInfo;
+        EventDetails[EventCount].location = _location;
         EventDetails[EventCount].verficationTrue = 0;
         EventDetails[EventCount].verficationFalse = 0;
         EventDetails[EventCount].verified = false;
@@ -106,7 +108,7 @@ contract EventInformation{
     }
 
     // Funtion to verify the event 
-    function verifiyEvent(uint32 _id,bool _verificationStatus) public payable checkAddressVerification(_id,msg.sender){
+    function verifyEvent(uint32 _id,bool _verificationStatus) public payable checkAddressVerification(_id,msg.sender){
         verifiers[_id].push(eventVerifiers(msg.sender,_verificationStatus,true)); // Executed only when the sender has not already given his response
         if(_verificationStatus == false){
             EventDetails[_id].verficationFalse++;
