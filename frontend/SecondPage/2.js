@@ -1,4 +1,3 @@
-import d from "d";
 import { ethers } from "./ethers.js";
 import abi from './utils/EventInformationABI.json' assert { type: "json" };
 
@@ -24,13 +23,13 @@ button2.addEventListener('click',connect.call());
 const button1 = document.getElementById("contractAddressSubmit");
 const addressField = document.getElementById("contractAddress");
 
-let contractAddress = "0x38e798FdeF6026Fbb2EC42441c5ccbF7659B80DC";  // Hardcoded the contract addrss so u dont have to keep initialzing
-// const contractAddressGetter = async()=>{
-//     contractAddress = addressField.value;
-//     console.log(contractAddress);
-// }
+let contractAddress;  // Hardcoded the contract addrss so u dont have to keep initialzing
+const contractAddressGetter = async()=>{
+    contractAddress = addressField.value;
+    console.log(contractAddress);
+}
 
-// button1.addEventListener('click',contractAddressGetter);
+button1.addEventListener('click',contractAddressGetter);
 
 
 // Funtion to create a new event

@@ -3,7 +3,7 @@ import abi from './utils/DisasterCollectionABI.json' assert { type: "json" };
 
 
 
-const contractAddress = "0x4cE3E3f60FACAB09A35610Ed463D5E25768aDe3d";   // DisasterCollection contract address
+const contractAddress = "0xd726183524c3fcb011E9428F4b8b0f91C41963e6";   // DisasterCollection contract address
 const contractABI = abi;  // ABI available in utils
 
 
