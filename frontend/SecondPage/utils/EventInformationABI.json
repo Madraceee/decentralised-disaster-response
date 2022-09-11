@@ -1,0 +1,309 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint32",
+				"name": "_id",
+				"type": "uint32"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "_Accepted",
+				"type": "bool"
+			}
+		],
+		"name": "NewEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint32",
+				"name": "_RequestCount",
+				"type": "uint32"
+			}
+		],
+		"name": "NewRequest",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint32",
+				"name": "_id",
+				"type": "uint32"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "_verifiedStatus",
+				"type": "bool"
+			}
+		],
+		"name": "UpdateEvent",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "EVENTCREATIONDEPOSIT",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "VERIFIERDEPOSIT",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_generalInfo",
+				"type": "string"
+			}
+		],
+		"name": "createEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_generalInfo",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_location",
+				"type": "string"
+			}
+		],
+		"name": "createRequest",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "_id",
+				"type": "uint32"
+			}
+		],
+		"name": "getEventByID",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "generalInfo",
+						"type": "string"
+					},
+					{
+						"internalType": "uint64",
+						"name": "verficationTrue",
+						"type": "uint64"
+					},
+					{
+						"internalType": "uint64",
+						"name": "verficationFalse",
+						"type": "uint64"
+					},
+					{
+						"internalType": "bool",
+						"name": "verified",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"internalType": "struct EventInformation.eventDetail",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "_id",
+				"type": "uint32"
+			}
+		],
+		"name": "getMediaByID",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "_id",
+				"type": "uint32"
+			}
+		],
+		"name": "getRequestByID",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "info",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct EventInformation.urgentRequest",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalEvents",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalRequests",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "i_owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "sendReward",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "_id",
+				"type": "uint32"
+			},
+			{
+				"internalType": "string",
+				"name": "_mediaLink",
+				"type": "string"
+			}
+		],
+		"name": "uploadMedia",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "_id",
+				"type": "uint32"
+			},
+			{
+				"internalType": "bool",
+				"name": "_verificationStatus",
+				"type": "bool"
+			}
+		],
+		"name": "verifiyEvent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	}
+]
